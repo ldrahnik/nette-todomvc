@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <title>Nette • TodoMVC</title>
+
+    {block css}
+        {control css}
+    {/block}
+
+    {block preJs}
+        {control preJs}
+    {/block}
+
+</head>
+
+<body class="learn-bar">
+
+{include content}
+
+<aside class="learn">
+    <header>
+        <h3>Nette</h3>
+        <span class="source-links">
+            <h5>Example</h5>
+            <a href="https://github.com/ldrahnik/nette.todomvc">Source</a>
+        </span>
+    </header>
+    <hr>
+    <blockquote class="quote speech-bubble"><p>A popular tool for PHP web development.</p>
+        <footer><a href="http://github.com/nette">Nette</a></footer>
+    </blockquote>
+    <hr>
+    <h4>Official Resources</h4>
+    <ul>
+        <li><a href="http://doc.nette.org/en/2.3/">Documentation</a></li>
+    </ul>
+    <h4>Community</h4>
+    <ul>
+        <li><a href="http://forum.nette.org/en/">Forum</a></li>
+        <li><a href="http://live.jabbim.cz/chat/nette@conf.netlab.cz">Jabbim</a></li>
+    </ul>
+    <footer>
+        <hr>
+        <em>
+            If you have other helpful links to share, or find any of the links above no longer work, please
+            <a href="https://github.com/tastejs/todomvc/issues">let us know</a>.
+        </em>
+    </footer>
+</aside>
+
+{block postJs}
+    {control postJs}
+{/block}
+
+</body>
+</html>

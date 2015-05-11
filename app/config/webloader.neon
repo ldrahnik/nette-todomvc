@@ -1,0 +1,30 @@
+services:
+	cssMin: App\WebLoader\Filters\CssMinFilter
+	jsMin: App\WebLoader\Filters\JsMinFilter
+
+extensions:
+	webloader: WebLoader\Nette\Extension
+
+webloader:
+
+		css:
+			default:
+				files:
+					- {files: ["*.css"], from: %wwwDir%/css/}
+
+				filters:
+					- @cssMin
+		js:
+			pre:
+				files:
+					- jquery-2.1.4.js
+					- jquery-ui.js
+			post:
+				files:
+					- nette/netteForms.js
+					- nette/nette.ajax.js
+
+					- app.js
+
+				filters:
+					- @jsMin
