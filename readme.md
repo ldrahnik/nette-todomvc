@@ -1,7 +1,7 @@
 Nette • TodoMVC
 --------------
 
-Functionality based on [todomvc.com](http://todomvc.com/).
+Skeleton used [web-project](http://github.com/nette/web-project). Functionality based on [todomvc.com](http://todomvc.com/).
 
 Features:
 ---------
@@ -13,13 +13,15 @@ Features:
 
 - Clone project
 
+- `composer install`
+
 - Create database manually and set up access in `config.local.neon`. For example:
 
 ``` neon
 doctrine:
 	user: root
 	password:
-	dbname: madeo.todo
+	dbname: todomvc
 	metadata:
 		App: %appDir%
 ```
