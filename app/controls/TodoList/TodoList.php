@@ -27,10 +27,10 @@ use Nette\Http\Request;
 interface ITodoListFactory
 {
 
-	/**
-	 * @return TodoList
-	 */
-	function create();
+    /**
+     * @return TodoList
+     */
+    function create();
 }
 
 /**
@@ -42,12 +42,12 @@ interface ITodoListFactory
 class TodoList extends Nette\Application\UI\Control
 {
 
-	/** @var ViewKeeper */
-	private $viewKeeper;
+    /** @var ViewKeeper */
+    private $viewKeeper;
 
     /** @var EntityManager */
     private $em;
-    
+
     /** @var \Kdyby\Doctrine\EntityRepository */
     private $taskRepository;
 
@@ -61,20 +61,20 @@ class TodoList extends Nette\Application\UI\Control
      */
     public $state = 'all';
 
-	public function __construct(ViewKeeper $viewKeeper, EntityManager $em, Request $request)
-	{
+    public function __construct(ViewKeeper $viewKeeper, EntityManager $em, Request $request)
+    {
         $this->request = $request;
         $this->em = $em;
         $this->taskRepository = $this->em->getRepository('\App\Model\Task');
-		$this->viewKeeper = $viewKeeper;
-	}
+        $this->viewKeeper = $viewKeeper;
+    }
 
-	public function render()
-	{
-		$this->template->setFile($this->viewKeeper->getView('TodoList', 'controls'));
+    public function render()
+    {
+        $this->template->setFile($this->viewKeeper->getView('TodoList', 'controls'));
         $this->template->source = $this->prepareSourceData($this->state);
-		$this->template->render();
-	}
+        $this->template->render();
+    }
 
     /**
      * @param $state
@@ -111,7 +111,7 @@ class TodoList extends Nette\Application\UI\Control
 
         // COUNT all, done, left
         $source['allCount'] = $this->taskRepository->fetch((new GetTasks)->byUser($userId))->count();
-        $source['doneCount'] =  $this->taskRepository->fetch((new GetTasks)->byState()->byUser($userId))->count();
+        $source['doneCount'] = $this->taskRepository->fetch((new GetTasks)->byState()->byUser($userId))->count();
         $source['leftCount'] = $source['allCount'] - $source['doneCount'];
 
         // STATE
@@ -120,17 +120,17 @@ class TodoList extends Nette\Application\UI\Control
         return $source;
     }
 
-	protected function createComponentAddTask()
-	{
-		$form = new Form;
+    protected function createComponentAddTask()
+    {
+        $form = new Form;
 
-		$form->addText('content')
+        $form->addText('content')
             ->setHtmlId('new-todo')
             ->setAttribute('placeholder', 'What needs to be done?')
             ->setAttribute('autofocus');
 
-		$form->onSuccess[] = function($form) {
-            if($form->values->content) {
+        $form->onSuccess[] = function ($form) {
+            if ($form->values->content) {
                 $userId = $this->getPresenter()->getUser()->getId();
 
                 $task = new Task($this->em->getReference('\App\Model\User', $userId), $form->values->content);
@@ -141,8 +141,8 @@ class TodoList extends Nette\Application\UI\Control
                 $this->redrawControl('tasks');
             }
         };
-		return $form;
-	}
+        return $form;
+    }
 
     public function handleRemoveTask()
     {
@@ -160,7 +160,7 @@ class TodoList extends Nette\Application\UI\Control
 
         $task = $this->taskRepository->findOneBy(array('id' => $id));
 
-        if($task != null) {
+        if ($task != null) {
             $task->isDone = !$task->isDone;
             $this->em->flush($task);
             $this->redrawControl('tasks');
@@ -206,10 +206,10 @@ class TodoList extends Nette\Application\UI\Control
         $data = $this->request->getQuery('data');
 
         $posId = 1;
-        foreach($data as $node) {
+        foreach ($data as $node) {
             $task = $this->taskRepository->findOneBy(array('id' => $node));
 
-            if($task->posId != $posId) {
+            if ($task->posId != $posId) {
                 $task->posId = $posId;
                 $this->em->persist($task);
             }
@@ -225,7 +225,7 @@ class TodoList extends Nette\Application\UI\Control
 
         $task = $this->taskRepository->find($id);
 
-        if($value) {
+        if ($value) {
             $task->setContent($value);
             $this->em->persist($task);
         } else {

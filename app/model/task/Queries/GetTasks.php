@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Model;
+
 /**
  * This file is part of the ldrahnik\nette-todomvc.
  *
@@ -18,7 +19,8 @@ use Kdyby;
  * @package ldrahnik\nette-todomvc
  * @author Lukáš Drahník <http://ldrahnik.com>
  */
-class GetTasks extends BaseQuery {
+class GetTasks extends BaseQuery
+{
 
 
     /**

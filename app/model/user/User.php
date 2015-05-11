@@ -22,33 +22,33 @@ class User extends Kdyby\Doctrine\Entities\BaseEntity
 {
     use Kdyby\Doctrine\Entities\Attributes\Identifier;
 
-	/**
-	 * @ORM\Column(type="string", unique=true)
+    /**
+     * @ORM\Column(type="string", unique=true)
      * @var string
-	 */
-	protected $username;
+     */
+    protected $username;
 
-	/**
-	 * @ORM\Column(type="string")
+    /**
+     * @ORM\Column(type="string")
      * @var string
-	 */
-	protected $password;
+     */
+    protected $password;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="App\Model\Task", mappedBy="user", cascade={"remove"})
-	 * @var \Doctrine\Common\Collections\ArrayCollection
-	 */
-	protected $tasks;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Model\Task", mappedBy="user", cascade={"remove"})
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    protected $tasks;
 
     /**
      * @param $username
      * @param $password
      */
-	public function __construct($username, $password)
-	{
+    public function __construct($username, $password)
+    {
         $this->username = $username;
         $this->password = Passwords::hash($password);
 
-		$this->tasks = new Doctrine\Common\Collections\ArrayCollection();
-	}
+        $this->tasks = new Doctrine\Common\Collections\ArrayCollection();
+    }
 }

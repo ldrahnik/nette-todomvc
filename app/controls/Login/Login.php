@@ -23,10 +23,10 @@ use ViewKeeper\ViewKeeper;
 interface ILoginFactory
 {
 
-	/**
-	 * @return Login
-	 */
-	function create();
+    /**
+     * @return Login
+     */
+    function create();
 }
 
 /**
@@ -38,25 +38,25 @@ interface ILoginFactory
 class Login extends Nette\Application\UI\Control
 {
 
-	/** @var ViewKeeper */
-	private $viewKeeper;
+    /** @var ViewKeeper */
+    private $viewKeeper;
 
-	public function __construct(ViewKeeper $viewKeeper)
-	{
-		$this->viewKeeper = $viewKeeper;
-	}
+    public function __construct(ViewKeeper $viewKeeper)
+    {
+        $this->viewKeeper = $viewKeeper;
+    }
 
-	public function render()
-	{
-		$this->template->setFile($this->viewKeeper->getView('Login', 'controls'));
-		$this->template->render();
-	}
+    public function render()
+    {
+        $this->template->setFile($this->viewKeeper->getView('Login', 'controls'));
+        $this->template->render();
+    }
 
-	protected function createComponentLoginForm()
-	{
-		$form = new Form;
+    protected function createComponentLoginForm()
+    {
+        $form = new Form;
 
-		$form->addText('username')
+        $form->addText('username')
             ->setAttribute('placeholder', 'username')
             ->setAttribute('autofocus')
             ->setHtmlId('login-field');
@@ -67,7 +67,7 @@ class Login extends Nette\Application\UI\Control
         $form->addSubmit('submit')
             ->setHtmlId('login-field');
 
-		$form->onSuccess[] = function($form) {
+        $form->onSuccess[] = function ($form) {
             $values = $form->values;
 
             $this->getPresenter()->getUser()->setExpiration('120 minutes', TRUE);
@@ -80,6 +80,6 @@ class Login extends Nette\Application\UI\Control
             }
         };
 
-		return $form;
-	}
+        return $form;
+    }
 }

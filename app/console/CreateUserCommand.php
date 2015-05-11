@@ -17,21 +17,21 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CreateUserCommand extends Command
 {
-	protected function configure()
-	{
-		$this->setName('app:create-user')
-			->setDescription('Create user')
-			->addArgument(
-				'username',
-				InputArgument::REQUIRED,
-				'Username'
-			)
-			->addArgument(
-				'password',
-				InputArgument::REQUIRED,
-				'User password'
-			);
-	}
+    protected function configure()
+    {
+        $this->setName('app:create-user')
+            ->setDescription('Create user')
+            ->addArgument(
+                'username',
+                InputArgument::REQUIRED,
+                'Username'
+            )
+            ->addArgument(
+                'password',
+                InputArgument::REQUIRED,
+                'User password'
+            );
+    }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
