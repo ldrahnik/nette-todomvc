@@ -196,23 +196,6 @@ class TodoList extends Nette\Application\UI\Control
         $this->redrawControl('tasks');
     }
 
-    public function handleSaveOrder()
-    {
-        $data = $this->request->getQuery('data');
-
-        $posId = 1;
-        foreach ($data as $node) {
-            $task = $this->taskRepository->findOneBy(array('id' => $node));
-
-            if ($task->posId != $posId) {
-                $task->posId = $posId;
-                $this->em->persist($task);
-            }
-            $posId++;
-        }
-        $this->em->flush();
-    }
-
     public function handleEditTask()
     {
         $id = $this->request->getQuery('id');

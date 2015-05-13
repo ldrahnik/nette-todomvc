@@ -3,11 +3,6 @@ Nette • TodoMVC
 
 Skeleton used [web-project](http://github.com/nette/web-project). Functionality based on [todomvc.com](http://todomvc.com/).
 
-Features:
----------
-
-- tasks order (drag & drop)
-
 ##Quickstart##
 
 - Clone project
