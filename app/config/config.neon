@@ -9,7 +9,6 @@ php:
 
 
 application:
-	errorPresenter: Error
 	mapping:
 		*: App\Presenters\*Presenter
 
@@ -20,15 +19,6 @@ session:
 
 services:
 	router: App\RouterFactory::createRouter
-	authenticator: App\Model\Authenticator
-
-	CreateUserCommand:
-		class: App\Console\CreateUserCommand($username, $password)
-		tags: [kdyby.console.command]
-
-	Login:
-		class: App\Controls\Login
-		implement: App\Controls\ILoginFactory
 
 	TodoList:
 		class: App\Controls\TodoList
@@ -41,10 +31,6 @@ extensions:
     annotations: Kdyby\Annotations\DI\AnnotationsExtension
     doctrine: Kdyby\Doctrine\DI\OrmExtension
     views: ViewKeeper\DI\ViewKeeperExtension
-
-
-console:
-    url: 	# TODO
 
 
 views:

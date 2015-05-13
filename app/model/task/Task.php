@@ -21,13 +21,6 @@ class Task extends Kdyby\Doctrine\Entities\BaseEntity
     use Kdyby\Doctrine\Entities\Attributes\Identifier;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Model\User", inversedBy="tasks", cascade={"persist"})
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=TRUE)
-     * @var
-     */
-    protected $user;
-
-    /**
      * @ORM\Column(type="text", nullable=TRUE)
      */
     protected $content;
@@ -45,12 +38,10 @@ class Task extends Kdyby\Doctrine\Entities\BaseEntity
     protected $posId;
 
     /**
-     * @param $user
      * @param $content
      */
-    public function __construct($user, $content)
+    public function __construct($content)
     {
-        $this->user = $user;
         $this->content = $content;
     }
 }

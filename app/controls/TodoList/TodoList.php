@@ -87,31 +87,27 @@ class TodoList extends Nette\Application\UI\Control
     private function prepareSourceData($state)
     {
         $source = [];
-        $userId = $this->getPresenter()->getUser()->getId();
 
         // TASKS filtered by current state
         if ($state == 'all') {
             $source['tasks'] = $this->taskRepository->fetch(
                 (new GetTasks)
-                    ->byUser($userId)
             )->applySorting('e.posId ASC')->toArray();
         } elseif ($state == 'active') {
             $source['tasks'] = $this->taskRepository->fetch(
                 (new GetTasks)
                     ->byState(false)
-                    ->byUser($userId)
             )->applySorting('e.posId ASC')->toArray();
         } elseif ($state == 'done') {
             $source['tasks'] = $this->taskRepository->fetch(
                 (new GetTasks)
                     ->byState()
-                    ->byUser($userId)
             )->applySorting('e.posId ASC')->toArray();
         }
 
         // COUNT all, done, left
-        $source['allCount'] = $this->taskRepository->fetch((new GetTasks)->byUser($userId))->count();
-        $source['doneCount'] = $this->taskRepository->fetch((new GetTasks)->byState()->byUser($userId))->count();
+        $source['allCount'] = $this->taskRepository->fetch((new GetTasks))->count();
+        $source['doneCount'] = $this->taskRepository->fetch((new GetTasks)->byState())->count();
         $source['leftCount'] = $source['allCount'] - $source['doneCount'];
 
         // STATE
@@ -131,10 +127,9 @@ class TodoList extends Nette\Application\UI\Control
 
         $form->onSuccess[] = function ($form) {
             if ($form->values->content) {
-                $userId = $this->getPresenter()->getUser()->getId();
 
-                $task = new Task($this->em->getReference('\App\Model\User', $userId), $form->values->content);
-                $task->posId = $this->taskRepository->fetch((new GetTasks)->byUser($userId))->count() + 1;
+                $task = new Task($form->values->content);
+                $task->posId = $this->taskRepository->fetch((new GetTasks))->count() + 1;
 
                 $this->em->persist($task);
                 $this->em->flush();

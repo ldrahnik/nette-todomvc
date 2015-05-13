@@ -1,22 +1,10 @@
 {block content}
 
-    {if $user->isLoggedIn()}
+    {control todoList}
 
-        {control todoList}
-
-        <footer id="info">
-            <p>Double-click to edit a todo</p>
-            <p>Created by <a href="http://ldrahnik.com">Lukáš Drahník</a> | <a href="{plink Sign:out}">Log out</a></p>
-        </footer>
-
-    {else}
-
-        {control login}
-
-        <footer id="info">
-            <p>Created by <a href="http://ldrahnik.com">Lukáš Drahník</a></p>
-        </footer>
-
-    {/if}
+    <footer id="info">
+        <p>Double-click to edit a todo</p>
+        <p>Created by <a href="http://ldrahnik.com">Lukáš Drahník</a></p>
+    </footer>
 
 {/block}

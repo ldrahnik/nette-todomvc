@@ -22,22 +22,11 @@ class HomepagePresenter extends BasePresenter
     /** @var \App\Controls\ITodoListFactory @inject */
     public $ITodoListFactory;
 
-    /** @var \App\Controls\ILoginFactory @inject */
-    public $ILoginFactory;
-
     /**
      * @return \App\Controls\TodoList
      */
     protected function createComponentTodoList()
     {
         return $this->ITodoListFactory->create();
-    }
-
-    /**
-     * @return \App\Controls\Login
-     */
-    protected function createComponentLogin()
-    {
-        return $this->ILoginFactory->create();
     }
 }

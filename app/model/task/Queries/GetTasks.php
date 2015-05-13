@@ -38,22 +38,6 @@ class GetTasks extends BaseQuery
     }
 
     /**
-     * @param $userId
-     * @return $this
-     */
-    public function byUser($userId)
-    {
-        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($userId) {
-            $qb
-                ->leftJoin('e.user', 'user')
-                ->andWhere('user.id = :userId')
-                ->setParameter('userId', $userId);
-        };
-        return $this;
-    }
-
-
-    /**
      * @param \Kdyby\Doctrine\QueryBuilder $qb
      * @return \Kdyby\Doctrine\QueryBuilder
      */

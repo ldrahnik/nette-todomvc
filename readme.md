@@ -6,7 +6,6 @@ Skeleton used [web-project](http://github.com/nette/web-project). Functionality 
 Features:
 ---------
 
-- users
 - tasks order (drag & drop)
 
 ##Quickstart##
