@@ -1,6 +1,6 @@
 {
 	"name": "ldrahnik/nette-todomvc",
-	"description": "Functionality based on http://todomvc.com.",
+	"description": "Skeleton used http://github.com/nette/web-project. Functionality based on http://todomvc.com/.",
     "homepage": "http://github.com/ldrahnik/nette-todomvc/",
 	"type": "project",
 	"license": ["MIT"],

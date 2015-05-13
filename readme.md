@@ -21,7 +21,3 @@ doctrine:
 ```
 
 - `php www/index.php orm:schema-tool:create`
-
-- `php www/index.php app:create-user <username> <password>`
-
-- Enjoy :)
