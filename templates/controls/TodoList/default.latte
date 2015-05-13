@@ -2,7 +2,7 @@
     <header id="header">
         <h1>todos</h1>
         {form addTask class => 'ajax'}
-            {input content}
+            {input message}
         {/form}
     </header>
 
@@ -29,7 +29,7 @@
                     $.nette.ajax({
                         url: {link changeTasksState! },
                         data: {
-                            checked: $(this).prop('checked')
+                            status: $(this).prop('checked')
                         }
                     });
                 });
@@ -56,8 +56,8 @@
                         $.nette.ajax({
                             url: {link editTask! },
                             data: {
-                                value: e.target.value,
-                                id: e.target.id
+                                id: e.target.id,
+                                message: e.target.value
                             }
                         });
                         e.target.blur();
@@ -80,14 +80,14 @@
                 <!-- These are here just to show the structure of the list items -->
                 <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
                 {foreach $source['tasks'] as $task}
-                    <li class="li-{$task->id} {if $task->isDone} completed {/if} ">
+                    <li class="li-{$task->id} {if $task->status} completed {/if} ">
                         <div class="view">
                             <input class="task-state toggle" id="{$task->id}"
-                                   type="checkbox" {if $task->isDone} checked {/if}>
-                            <label id="{$task->id}" class="task-edit">{$task->content}</label>
+                                   type="checkbox" {if $task->status} checked {/if}>
+                            <label id="{$task->id}" class="task-edit">{$task->message}</label>
                             <button class="destroy" id="{$task->id}"></button>
                         </div>
-                        <input class="edit" value="{$task->content}" id="{$task->id}">
+                        <input class="edit" value="{$task->message}" id="{$task->id}">
                     </li>
                 {/foreach}
             </ul>

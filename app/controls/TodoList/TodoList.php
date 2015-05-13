@@ -86,31 +86,25 @@ class TodoList extends Nette\Application\UI\Control
      */
     private function prepareSourceData($state)
     {
-        $source = [];
-
-        // TASKS filtered by current state
         if ($state == 'all') {
             $source['tasks'] = $this->taskRepository->fetch(
                 (new GetTasks)
-            )->applySorting('e.posId ASC')->toArray();
+            )->toArray();
         } elseif ($state == 'active') {
             $source['tasks'] = $this->taskRepository->fetch(
                 (new GetTasks)
                     ->byState(false)
-            )->applySorting('e.posId ASC')->toArray();
+            )->toArray();
         } elseif ($state == 'done') {
             $source['tasks'] = $this->taskRepository->fetch(
                 (new GetTasks)
                     ->byState()
-            )->applySorting('e.posId ASC')->toArray();
+            )->toArray();
         }
 
-        // COUNT all, done, left
         $source['allCount'] = $this->taskRepository->fetch((new GetTasks))->count();
         $source['doneCount'] = $this->taskRepository->fetch((new GetTasks)->byState())->count();
         $source['leftCount'] = $source['allCount'] - $source['doneCount'];
-
-        // STATE
         $source['state'] = $state;
 
         return $source;
@@ -120,17 +114,15 @@ class TodoList extends Nette\Application\UI\Control
     {
         $form = new Form;
 
-        $form->addText('content')
+        $form->addText('message')
             ->setHtmlId('new-todo')
             ->setAttribute('placeholder', 'What needs to be done?')
             ->setAttribute('autofocus');
 
         $form->onSuccess[] = function ($form) {
-            if ($form->values->content) {
+            if ($form->values->message) {
 
-                $task = new Task($form->values->content);
-                $task->posId = $this->taskRepository->fetch((new GetTasks))->count() + 1;
-
+                $task = new Task($form->values->message);
                 $this->em->persist($task);
                 $this->em->flush();
                 $this->redrawControl('tasks');
@@ -164,12 +156,11 @@ class TodoList extends Nette\Application\UI\Control
 
     public function handleChangeTasksState()
     {
-        $checked = $this->request->getQuery('checked');
+        $status = $this->request->getQuery('status');
+        $statusBoolean = $status === 'true' ? true : false;
 
-        $checkedBoolean = $checked === 'true' ? true : false;
-
-        foreach ($this->taskRepository->fetch((new GetTasks)->byState(!$checkedBoolean)) as $task) {
-            $task->isDone = $checkedBoolean;
+        foreach ($this->taskRepository->fetch((new GetTasks)->byState(!$statusBoolean)) as $task) {
+            $task->isDone = $statusBoolean;
             $this->em->persist($task);
         }
         $this->em->flush();
@@ -178,9 +169,9 @@ class TodoList extends Nette\Application\UI\Control
 
     public function handleClearDoneTasks()
     {
-        $source = $this->prepareSourceData('done');
+        $data = $this->prepareSourceData('done');
 
-        foreach ($source['tasks'] as $task) {
+        foreach ($data['tasks'] as $task) {
             $this->em->remove($task);
         }
         $this->em->flush();
@@ -199,12 +190,11 @@ class TodoList extends Nette\Application\UI\Control
     public function handleEditTask()
     {
         $id = $this->request->getQuery('id');
-        $value = $this->request->getQuery('value');
+        $message = $this->request->getQuery('message');
 
         $task = $this->taskRepository->find($id);
-
-        if ($value) {
-            $task->setContent($value);
+        if ($message) {
+            $task->setMessage($message);
             $this->em->persist($task);
         } else {
             $this->em->remove($task);

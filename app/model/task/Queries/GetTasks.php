@@ -24,15 +24,15 @@ class GetTasks extends BaseQuery
 
 
     /**
-     * @param $isDone
+     * @param $status
      * @return $this
      */
-    public function byState($isDone = true)
+    public function byState($status = true)
     {
-        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($isDone) {
+        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($status) {
             $qb
-                ->andWhere('e.isDone = :isDone')
-                ->setParameter('isDone', $isDone);
+                ->andWhere('e.status = :status')
+                ->setParameter('status', $status);
         };
         return $this;
     }

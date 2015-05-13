@@ -21,27 +21,22 @@ class Task extends Kdyby\Doctrine\Entities\BaseEntity
     use Kdyby\Doctrine\Entities\Attributes\Identifier;
 
     /**
-     * @ORM\Column(type="text", nullable=TRUE)
+     * @ORM\Column(type="string", nullable=TRUE)
+     * @var string
      */
-    protected $content;
+    protected $message;
 
     /**
      * @ORM\Column(type="boolean", nullable=TRUE)
      * @var boolean
      */
-    protected $isDone = false;
+    protected $status = false;
 
     /**
-     * @ORM\Column(type="integer", nullable=TRUE)
-     * @var integer
+     * @param $message
      */
-    protected $posId;
-
-    /**
-     * @param $content
-     */
-    public function __construct($content)
+    public function __construct($message)
     {
-        $this->content = $content;
+        $this->message = $message;
     }
 }
