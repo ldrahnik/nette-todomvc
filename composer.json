@@ -1,7 +1,7 @@
 {
 	"name": "ldrahnik/nette-todomvc",
 	"description": "Functionality based on http://todomvc.com.",
-    "homepage": "http://www.wakers.cz/",
+    "homepage": "http://github.com/ldrahnik/nette-todomvc/",
 	"type": "project",
 	"license": ["MIT"],
     "authors": [
