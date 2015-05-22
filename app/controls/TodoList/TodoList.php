@@ -148,7 +148,7 @@ class TodoList extends Nette\Application\UI\Control
         $task = $this->taskRepository->findOneBy(array('id' => $id));
 
         if ($task != null) {
-            $task->isDone = !$task->isDone;
+            $task->status = !$task->status;
             $this->em->flush($task);
             $this->redrawControl('tasks');
         }
@@ -160,7 +160,7 @@ class TodoList extends Nette\Application\UI\Control
         $statusBoolean = $status === 'true' ? true : false;
 
         foreach ($this->taskRepository->fetch((new GetTasks)->byState(!$statusBoolean)) as $task) {
-            $task->isDone = $statusBoolean;
+            $task->status = $statusBoolean;
             $this->em->persist($task);
         }
         $this->em->flush();
