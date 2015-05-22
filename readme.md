@@ -3,13 +3,15 @@ Nette • TodoMVC
 
 Skeleton used [web-project](http://github.com/nette/web-project). Functionality based on [todomvc.com](http://todomvc.com/).
 
-##Quickstart##
+##Install##
 
-- Clone project
+``` bash
+  git clone https://github.com/ldrahnik/nette-todomvc.git
+  cd nette-todomvc
+  composer install
+```
 
-- `composer install`
-
-- Create database manually and set up access in `config.local.neon`. For example:
+Create database manually and set up access in `config.local.neon`. For example:
 
 ``` neon
 doctrine:
@@ -20,4 +22,6 @@ doctrine:
 		App: %appDir%
 ```
 
-- `php www/index.php orm:schema-tool:create`
+``` bash
+php www/index.php orm:schema-tool:create
+```
