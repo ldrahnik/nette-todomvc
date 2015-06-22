@@ -23,26 +23,26 @@ class GetTasks extends BaseQuery
 {
 
 
-    /**
-     * @param $status
-     * @return $this
-     */
-    public function byState($status = true)
-    {
-        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($status) {
-            $qb
-                ->andWhere('e.status = :status')
-                ->setParameter('status', $status);
-        };
-        return $this;
-    }
+	/**
+	 * @param $status
+	 * @return $this
+	 */
+	public function byState($status = true)
+	{
+		$this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($status) {
+			$qb
+				->andWhere('e.status = :status')
+				->setParameter('status', $status);
+		};
+		return $this;
+	}
 
-    /**
-     * @param \Kdyby\Doctrine\QueryBuilder $qb
-     * @return \Kdyby\Doctrine\QueryBuilder
-     */
-    protected function addBaseSelect(Kdyby\Doctrine\QueryBuilder $qb)
-    {
-        return $qb->select('e')->from('\App\Model\Task', 'e');
-    }
+	/**
+	 * @param \Kdyby\Doctrine\QueryBuilder $qb
+	 * @return \Kdyby\Doctrine\QueryBuilder
+	 */
+	protected function addBaseSelect(Kdyby\Doctrine\QueryBuilder $qb)
+	{
+		return $qb->select('e')->from('\App\Model\Task', 'e');
+	}
 }

@@ -18,25 +18,25 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Task extends Kdyby\Doctrine\Entities\BaseEntity
 {
-    use Kdyby\Doctrine\Entities\Attributes\Identifier;
+	use Kdyby\Doctrine\Entities\Attributes\Identifier;
 
-    /**
-     * @ORM\Column(type="string", nullable=TRUE)
-     * @var string
-     */
-    protected $message;
+	/**
+	 * @ORM\Column(type="string", nullable=TRUE)
+	 * @var string
+	 */
+	protected $message;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=TRUE)
-     * @var boolean
-     */
-    protected $status = false;
+	/**
+	 * @ORM\Column(type="boolean", nullable=TRUE)
+	 * @var boolean
+	 */
+	protected $status = false;
 
-    /**
-     * @param $message
-     */
-    public function __construct($message)
-    {
-        $this->message = $message;
-    }
+	/**
+	 * @param $message
+	 */
+	public function __construct($message)
+	{
+		$this->message = $message;
+	}
 }

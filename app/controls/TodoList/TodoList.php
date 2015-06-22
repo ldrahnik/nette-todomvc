@@ -27,10 +27,10 @@ use Nette\Http\Request;
 interface ITodoListFactory
 {
 
-    /**
-     * @return TodoList
-     */
-    function create();
+	/**
+	 * @return TodoList
+	 */
+	function create();
 }
 
 /**
@@ -42,164 +42,164 @@ interface ITodoListFactory
 class TodoList extends Nette\Application\UI\Control
 {
 
-    /** @var ViewKeeper */
-    private $viewKeeper;
+	/** @var ViewKeeper */
+	private $viewKeeper;
 
-    /** @var EntityManager */
-    private $em;
+	/** @var EntityManager */
+	private $em;
 
-    /** @var \Kdyby\Doctrine\EntityRepository */
-    private $taskRepository;
+	/** @var \Kdyby\Doctrine\EntityRepository */
+	private $taskRepository;
 
-    /** @var Request */
-    private $request;
+	/** @var Request */
+	private $request;
 
-    /**
-     * Values:  all|active|done
-     * @var string
-     * @persistent
-     */
-    public $state = 'all';
+	/**
+	 * Values:  all|active|done
+	 * @var string
+	 * @persistent
+	 */
+	public $state = 'all';
 
-    public function __construct(ViewKeeper $viewKeeper, EntityManager $em, Request $request)
-    {
-        $this->request = $request;
-        $this->em = $em;
-        $this->taskRepository = $this->em->getRepository('\App\Model\Task');
-        $this->viewKeeper = $viewKeeper;
-    }
+	public function __construct(ViewKeeper $viewKeeper, EntityManager $em, Request $request)
+	{
+		$this->request = $request;
+		$this->em = $em;
+		$this->taskRepository = $this->em->getRepository('\App\Model\Task');
+		$this->viewKeeper = $viewKeeper;
+	}
 
-    public function render()
-    {
-        $this->template->setFile($this->viewKeeper->getView('TodoList', 'controls'));
-        $this->template->source = $this->prepareSourceData($this->state);
-        $this->template->render();
-    }
+	public function render()
+	{
+		$this->template->setFile($this->viewKeeper->getView('TodoList', 'controls'));
+		$this->template->source = $this->prepareSourceData($this->state);
+		$this->template->render();
+	}
 
-    /**
-     * @param $state
-     * @return array('tasks' => array,
-     *               'allCount' => integer,
-     *               'doneCount' => integer,
-     *               'leftCount' => integer,
-     *               'state' => string [all|active|done]);
-     */
-    private function prepareSourceData($state)
-    {
-        if ($state == 'all') {
-            $source['tasks'] = $this->taskRepository->fetch(
-                (new GetTasks)
-            )->toArray();
-        } elseif ($state == 'active') {
-            $source['tasks'] = $this->taskRepository->fetch(
-                (new GetTasks)
-                    ->byState(false)
-            )->toArray();
-        } elseif ($state == 'done') {
-            $source['tasks'] = $this->taskRepository->fetch(
-                (new GetTasks)
-                    ->byState()
-            )->toArray();
-        }
+	/**
+	 * @param $state
+	 * @return array('tasks' => array,
+	 *               'allCount' => integer,
+	 *               'doneCount' => integer,
+	 *               'leftCount' => integer,
+	 *               'state' => string [all|active|done]);
+	 */
+	private function prepareSourceData($state)
+	{
+		if ($state == 'all') {
+			$source['tasks'] = $this->taskRepository->fetch(
+				(new GetTasks)
+			)->toArray();
+		} elseif ($state == 'active') {
+			$source['tasks'] = $this->taskRepository->fetch(
+				(new GetTasks)
+					->byState(false)
+			)->toArray();
+		} elseif ($state == 'done') {
+			$source['tasks'] = $this->taskRepository->fetch(
+				(new GetTasks)
+					->byState()
+			)->toArray();
+		}
 
-        $source['allCount'] = $this->taskRepository->fetch((new GetTasks))->count();
-        $source['doneCount'] = $this->taskRepository->fetch((new GetTasks)->byState())->count();
-        $source['leftCount'] = $source['allCount'] - $source['doneCount'];
-        $source['state'] = $state;
+		$source['allCount'] = $this->taskRepository->fetch((new GetTasks))->count();
+		$source['doneCount'] = $this->taskRepository->fetch((new GetTasks)->byState())->count();
+		$source['leftCount'] = $source['allCount'] - $source['doneCount'];
+		$source['state'] = $state;
 
-        return $source;
-    }
+		return $source;
+	}
 
-    protected function createComponentAddTask()
-    {
-        $form = new Form;
+	protected function createComponentAddTask()
+	{
+		$form = new Form;
 
-        $form->addText('message')
-            ->setHtmlId('new-todo')
-            ->setAttribute('placeholder', 'What needs to be done?')
-            ->setAttribute('autofocus');
+		$form->addText('message')
+			->setHtmlId('new-todo')
+			->setAttribute('placeholder', 'What needs to be done?')
+			->setAttribute('autofocus');
 
-        $form->onSuccess[] = function ($form) {
-            if ($form->values->message) {
+		$form->onSuccess[] = function ($form) {
+			if ($form->values->message) {
 
-                $task = new Task($form->values->message);
-                $this->em->persist($task);
-                $this->em->flush();
-                $this->redrawControl('tasks');
-            }
-        };
-        return $form;
-    }
+				$task = new Task($form->values->message);
+				$this->em->persist($task);
+				$this->em->flush();
+				$this->redrawControl('tasks');
+			}
+		};
+		return $form;
+	}
 
-    public function handleRemoveTask()
-    {
-        $id = $this->request->getQuery('id');
-        $task = $this->taskRepository->findOneBy(array('id' => $id));
+	public function handleRemoveTask()
+	{
+		$id = $this->request->getQuery('id');
+		$task = $this->taskRepository->findOneBy(array('id' => $id));
 
-        $this->em->remove($task);
-        $this->em->flush();
-        $this->redrawControl('tasks');
-    }
+		$this->em->remove($task);
+		$this->em->flush();
+		$this->redrawControl('tasks');
+	}
 
-    public function handleChangeTaskState()
-    {
-        $id = $this->request->getQuery('id');
+	public function handleChangeTaskState()
+	{
+		$id = $this->request->getQuery('id');
 
-        $task = $this->taskRepository->findOneBy(array('id' => $id));
+		$task = $this->taskRepository->findOneBy(array('id' => $id));
 
-        if ($task != null) {
-            $task->status = !$task->status;
-            $this->em->flush($task);
-            $this->redrawControl('tasks');
-        }
-    }
+		if ($task != null) {
+			$task->status = !$task->status;
+			$this->em->flush($task);
+			$this->redrawControl('tasks');
+		}
+	}
 
-    public function handleChangeTasksState()
-    {
-        $status = $this->request->getQuery('status');
-        $statusBoolean = $status === 'true' ? true : false;
+	public function handleChangeTasksState()
+	{
+		$status = $this->request->getQuery('status');
+		$statusBoolean = $status === 'true' ? true : false;
 
-        foreach ($this->taskRepository->fetch((new GetTasks)->byState(!$statusBoolean)) as $task) {
-            $task->status = $statusBoolean;
-            $this->em->persist($task);
-        }
-        $this->em->flush();
-        $this->redrawControl('tasks');
-    }
+		foreach ($this->taskRepository->fetch((new GetTasks)->byState(!$statusBoolean)) as $task) {
+			$task->status = $statusBoolean;
+			$this->em->persist($task);
+		}
+		$this->em->flush();
+		$this->redrawControl('tasks');
+	}
 
-    public function handleClearDoneTasks()
-    {
-        $data = $this->prepareSourceData('done');
+	public function handleClearDoneTasks()
+	{
+		$data = $this->prepareSourceData('done');
 
-        foreach ($data['tasks'] as $task) {
-            $this->em->remove($task);
-        }
-        $this->em->flush();
-        $this->redrawControl('tasks');
-    }
+		foreach ($data['tasks'] as $task) {
+			$this->em->remove($task);
+		}
+		$this->em->flush();
+		$this->redrawControl('tasks');
+	}
 
-    /**
-     * @param $state
-     */
-    public function handleChangeTodoState($state)
-    {
-        $this->state = $state;
-        $this->redrawControl('tasks');
-    }
+	/**
+	 * @param $state
+	 */
+	public function handleChangeTodoState($state)
+	{
+		$this->state = $state;
+		$this->redrawControl('tasks');
+	}
 
-    public function handleEditTask()
-    {
-        $id = $this->request->getQuery('id');
-        $message = $this->request->getQuery('message');
+	public function handleEditTask()
+	{
+		$id = $this->request->getQuery('id');
+		$message = $this->request->getQuery('message');
 
-        $task = $this->taskRepository->find($id);
-        if ($message) {
-            $task->setMessage($message);
-            $this->em->persist($task);
-        } else {
-            $this->em->remove($task);
-        }
-        $this->em->flush();
-        $this->redrawControl('tasks');
-    }
+		$task = $this->taskRepository->find($id);
+		if ($message) {
+			$task->setMessage($message);
+			$this->em->persist($task);
+		} else {
+			$this->em->remove($task);
+		}
+		$this->em->flush();
+		$this->redrawControl('tasks');
+	}
 }
