@@ -27,7 +27,7 @@
 	"nette/utils": "~2.3.0",
 	"latte/latte": "~2.3.0",
 	"tracy/tracy": "~2.3.0",
-	"kdyby/doctrine": "^2.3",
+	"kdyby/doctrine": "^3.0",
 	"janmarek/webloader": "^2.4",
 	"ldrahnik/view-keeper": "^3.0",
 	"natxet/cssmin": "^3.0",
