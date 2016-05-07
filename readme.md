@@ -17,7 +17,7 @@ Create database manually and set up access in `config.local.neon`. For example:
 doctrine:
 	user: root
 	password:
-	dbname: todomvc
+	dbname: nette-todomvc
 	metadata:
 		App: %appDir%
 ```

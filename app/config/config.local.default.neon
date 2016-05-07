@@ -1,0 +1,6 @@
+doctrine:
+    user: root
+    password:
+    dbname: nette-todomvc
+    metadata:
+        App: %appDir%
