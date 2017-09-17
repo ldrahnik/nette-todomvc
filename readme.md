@@ -3,7 +3,7 @@ Nette • TodoMVC
 
 Skeleton used [web-project](http://github.com/nette/web-project). Functionality based on [todomvc.com](http://todomvc.com/).
 
-##Install##
+### Install
 
 ``` bash
   git clone https://github.com/ldrahnik/nette-todomvc.git
